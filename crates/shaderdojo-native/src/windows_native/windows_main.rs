@@ -1,4 +1,4 @@
-use windows::{core::*, Win32::Foundation::*, Win32::{System::LibraryLoader::GetModuleHandleA, Graphics::Gdi::{ BeginPaint, PAINTSTRUCT, EndPaint}}, Win32::UI::WindowsAndMessaging::*};
+use windows::{core::*, Win32::Foundation::*, Win32::{System::LibraryLoader::GetModuleHandleA, Graphics::Gdi::{ BeginPaint, PAINTSTRUCT, EndPaint}}, Win32::{UI::WindowsAndMessaging::*, Graphics::Gdi::{HBRUSH, GetStockObject, WHITE_BRUSH}}};
 
 pub fn win_main() -> Result<()> {
         
@@ -102,9 +102,9 @@ impl Window {
                 hCursor: LoadCursorW(None, IDC_HAND),
                 hInstance: instance,
                 lpszClassName: PSTR(b"window\0".as_ptr()),
-
                 style: CS_HREDRAW | CS_VREDRAW,
                 lpfnWndProc: Some(Self::wndproc),
+                hbrBackground: HBRUSH(GetStockObject(WHITE_BRUSH).0),
                 ..Default::default()
             };
 
