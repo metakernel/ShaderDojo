@@ -79,7 +79,7 @@ impl Window {
                     LRESULT(0)
                 }
                 WM_ACTIVATE => {
-                    println!("ACTIVATE");
+                    println!("WM_ACTIVATE");
                     self.visible = true;
                     LRESULT(0)
                 }
