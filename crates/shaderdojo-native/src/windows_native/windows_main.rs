@@ -1,7 +1,5 @@
-use windows::{
-    core::*, Win32::Foundation::*, Win32::Graphics::Gdi::ValidateRect,
-    Win32::System::LibraryLoader::GetModuleHandleA, Win32::UI::WindowsAndMessaging::*,
-};
+
+use windows::{core::*, Win32::Foundation::*, Win32::Graphics::Gdi::ValidateRect, Win32::System::LibraryLoader::GetModuleHandleA, Win32::UI::WindowsAndMessaging::*};
 
 pub fn win_main() -> Result<()> {
     unsafe {
@@ -13,7 +11,7 @@ pub fn win_main() -> Result<()> {
         let wc = WNDCLASSA {
             hCursor: LoadCursorW(None, IDC_ARROW),
             hInstance: instance,
-            lpszClassName: PSTR(b"window\0".as_ptr() as _),
+            lpszClassName: PSTR(b"window\0".as_ptr()),
 
             style: CS_HREDRAW | CS_VREDRAW,
             lpfnWndProc: Some(wndproc),
@@ -23,25 +21,12 @@ pub fn win_main() -> Result<()> {
         let atom = RegisterClassA(&wc);
         debug_assert!(atom != 0);
 
-        CreateWindowExA(
-            Default::default(),
-            window_class,
-            "This is a sample window",
-            WS_OVERLAPPEDWINDOW | WS_VISIBLE,
-            CW_USEDEFAULT,
-            CW_USEDEFAULT,
-            CW_USEDEFAULT,
-            CW_USEDEFAULT,
-            None,
-            None,
-            instance,
-            std::ptr::null_mut(),
-        );
+        CreateWindowExA(Default::default(), window_class, "ShaderDojo", WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, None, None, instance, std::ptr::null());
 
         let mut message = MSG::default();
 
         while GetMessageA(&mut message, HWND(0), 0, 0).into() {
-            DispatchMessageA(&mut message);
+            DispatchMessageA(&message);
         }
 
         Ok(())
